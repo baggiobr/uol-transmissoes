@@ -167,7 +167,6 @@
       <input type="password" id="login-password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
     </div>
     <button class="btn primary" style="width:100%;justify-content:center;height:40px;font-size:14px" id="btn-login" onclick="doLogin()">Entrar</button>
-    <button class="btn ghost" style="width:100%;justify-content:center;height:36px;font-size:13px;margin-top:8px" id="btn-signup" onclick="doSignup()">Criar conta</button>
   </div>
 </div>
 
@@ -398,26 +397,6 @@ async function doLogin(){
     errEl.style.display='block';
   }
   btn.disabled=false;btn.textContent='Entrar';
-}
-
-async function doSignup(){
-  const email=document.getElementById('login-email').value.trim();
-  const password=document.getElementById('login-password').value;
-  const errEl=document.getElementById('login-error');
-  errEl.style.display='none';
-  if(!email||!password){errEl.textContent='Preencha e-mail e senha.';errEl.style.display='block';return;}
-  const btn=document.getElementById('btn-signup');
-  btn.disabled=true;btn.textContent='Criando...';
-  try{
-    const res=await sbAuth('signup',{email,password});
-    accessToken=res.access_token;
-    currentUser=res.user;
-    saveSession({access_token:res.access_token,refresh_token:res.refresh_token,user:res.user});
-    await afterLogin();
-  }catch(e){
-    errEl.textContent=e.message;errEl.style.display='block';
-  }
-  btn.disabled=false;btn.textContent='Criar conta';
 }
 
 async function doLogout(){
